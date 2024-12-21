@@ -109,7 +109,7 @@ public class Generator {
 	private Position getBestPosition(Game game) {
 //		
 		if(Test.diagonalDangerForAi(game)) {
-			System.out.println("diagonalDangerForAi, returning handleDoublePreventiveCase()");
+			System.out.println("diagonalDangerForAi, returning handleDiagonalDangerForAi()");
 			return handleDiagonalDangerForAi();
 		}
 		
@@ -127,7 +127,7 @@ public class Generator {
 	}
 
 	private Position handleDiagonalDangerForAi() {
-		System.out.println("Generator.handleDoublePreventiveCase()");
+		System.out.println("Generator.handleDiagonalDangerForAi()");
 		return new Position(4) ;
 	}
 		

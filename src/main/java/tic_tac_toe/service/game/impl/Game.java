@@ -21,7 +21,7 @@ class Game {
 	
 	
 	Game() {
-		setNumberOfCellUpdated(0); 
+		numberOfCellUpdated = 0; 
 	}
 	
 	@Getter
