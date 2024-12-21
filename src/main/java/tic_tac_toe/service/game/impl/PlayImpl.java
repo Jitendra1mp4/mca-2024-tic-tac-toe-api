@@ -1,11 +1,14 @@
 package tic_tac_toe.service.game.impl;
 
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 import lombok.extern.java.Log;
 import tic_tac_toe.constants.Constants;
 import tic_tac_toe.constants.Constants.PLAYER;
+import tic_tac_toe.constants.ErrorEnum;
 import tic_tac_toe.constants.PlayResult;
+import tic_tac_toe.exception.TicTacToePlayerException;
 import tic_tac_toe.pojo.CurrentGame;
 import tic_tac_toe.pojo.GamePlayRequest;
 import tic_tac_toe.pojo.NewGameRequest;
@@ -16,8 +19,8 @@ import tic_tac_toe.service.game.Play;
 @Service
 public class PlayImpl implements Play {
 
-	private static final String AI = "AI";
-	private static final String HUMAN = "HUMAN";
+//	private static final String AI = "AI";
+//	private static final String HUMAN = "HUMAN";
 
 	private final Generator generator = new Generator();
 
@@ -97,7 +100,12 @@ public class PlayImpl implements Play {
 
 		
 		if (!stateUpdatedByHuman) {
-			throw new RuntimeException("Invalid position received unable to process...");
+			throw new TicTacToePlayerException(
+					ErrorEnum.INVALID_POSITION_RECEIVED.getErrorCode(),
+					ErrorEnum.INVALID_POSITION_RECEIVED.getErrorMessage(),
+					ErrorEnum.INVALID_POSITION_RECEIVED.getErrorDescription(),
+					HttpStatus.BAD_REQUEST
+					);
 		}
 		
 		log.info("state after setting request position\n"+game);
@@ -172,7 +180,6 @@ public class PlayImpl implements Play {
 //        }
 //        
 //        
-//
 //        System.out.println("initial game state:");
 //        System.out.println(game) ;
 //

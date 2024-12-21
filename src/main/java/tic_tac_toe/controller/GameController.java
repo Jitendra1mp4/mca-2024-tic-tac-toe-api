@@ -13,6 +13,7 @@ import tic_tac_toe.pojo.CurrentGame;
 import tic_tac_toe.pojo.GamePlayRequest;
 import tic_tac_toe.pojo.NewGameRequest;
 import tic_tac_toe.service.game.Play ;
+import tic_tac_toe.validate.ValidationService;
 
 
 @RestController	
@@ -22,12 +23,17 @@ public class GameController {
 	
 	@Autowired
 	private Play play ;
+	
+	@Autowired
+	ValidationService validate ;
 
 @PostMapping(value ={"/new","/new/"})
 public ResponseEntity<CurrentGame> startNewGame(@RequestBody NewGameRequest gameRequest) {
 
 	log.info("gameRequest : "+gameRequest) ;
 
+	validate.isValidNewGameRequest(gameRequest) ;
+	
 	CurrentGame currentGame = play.newGamePlay(gameRequest);
 	
 	log.info("returning currentGame:"+currentGame) ;
@@ -41,6 +47,8 @@ public ResponseEntity<CurrentGame>  gamePlay(@RequestBody GamePlayRequest playRe
    
 	log.info("playRequest : "+playRequest) ;
 
+	validate.isValidPlayRequest(playRequest) ;
+	
 	CurrentGame currentGame = play.gamePlay(playRequest);
 	
 	log.info("returning currentGame:"+currentGame) ;
