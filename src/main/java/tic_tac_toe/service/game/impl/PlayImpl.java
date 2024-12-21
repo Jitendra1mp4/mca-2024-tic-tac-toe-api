@@ -44,7 +44,7 @@ public class PlayImpl implements Play {
 			position = new Position(gameRequest.getPosition());
 			stateUpdated = game.updateState(position, Constants.PLAYER_HUMAN_MARK);
 			currentGame.setStateUpdatedByHuman(stateUpdated);
-			currentGame.setStateByApplyingGivenPostion(getDeepCopy(game.getState())); // set new game state
+			currentGame.setStateByApplyingGivenPosition(getDeepCopy(game.getState())); // set new game state
 		} 
 //		else {
 			log.info("AI's turn...");
@@ -52,9 +52,9 @@ public class PlayImpl implements Play {
 			stateUpdated = game.updateState(position, Constants.PLAYER_AI_MARK);
 //		}
 		
-		currentGame.setFinalStateSetPosition(position.getIntValue());
-		currentGame.setFinalStateSetSymbol(Constants.SYMBOL_X.trim());
-		currentGame.setFinalState(getDeepCopy(game.getState()));
+		currentGame.setAiSetPosition(position.getIntValue());
+		currentGame.setAiSetSymbol(Constants.SYMBOL_X.trim());
+		currentGame.setAiResponseState(getDeepCopy(game.getState()));
 		currentGame.setStateUpdatedByAI(stateUpdated);
 		
 		return currentGame;
@@ -81,6 +81,8 @@ public class PlayImpl implements Play {
 		 */
 
 		CurrentGame currentGame = new CurrentGame();
+		currentGame.setAiSetSymbol(Constants.SYMBOL_X.trim());
+		currentGame.setHumanSetSymbol(Constants.SYMBOL_O.trim());
 		
 		currentGame.setProvidedState(getDeepCopy(playRequest.getGameState()));
 		currentGame.setStartedByHuman(playRequest.isStartedByHuman());
@@ -91,7 +93,7 @@ public class PlayImpl implements Play {
 	
 		boolean stateUpdatedByHuman = game.updateState(position, Constants.PLAYER_HUMAN_MARK);
 		currentGame.setStartedByHuman(stateUpdatedByHuman);
-		currentGame.setStateByApplyingGivenPostion(getDeepCopy(game.getState())); // set new game state
+		currentGame.setStateByApplyingGivenPosition(getDeepCopy(game.getState())); // set new game state
 
 		
 		if (!stateUpdatedByHuman) {
@@ -111,7 +113,7 @@ public class PlayImpl implements Play {
 		boolean stateUpdatedByAI = game.updateState(position, Constants.PLAYER_AI_MARK);
 		currentGame.setStateUpdatedByAI(stateUpdatedByAI);
 
-		currentGame.setFinalState(getDeepCopy(game.getState())); // set new game state
+		currentGame.setAiResponseState(getDeepCopy(game.getState())); // set new game state
 		
 
 		log.info("state after setting AI position\n"+game);

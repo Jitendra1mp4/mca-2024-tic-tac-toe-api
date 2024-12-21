@@ -7,9 +7,10 @@ import tic_tac_toe.constants.PlayResult;
 public class CurrentGame {
 	private int providedPosition ;
 	
-	private int finalStateSetPosition;
-	private String finalStateSetSymbol;
+	private int aiSetPosition;
+	private String aiSetSymbol;
 	
+	private String humanSetSymbol ;
 	private boolean startedByHuman;
 	
 	private PlayResult playResult  ;
@@ -17,6 +18,6 @@ public class CurrentGame {
 	private boolean stateUpdatedByAI ;
 	
 	private int[][] providedState;
-	private int[][] stateByApplyingGivenPostion ;
-	private int[][] finalState;
+	private int[][] stateByApplyingGivenPosition ;
+	private int[][] aiResponseState;
 }
