@@ -1,23 +1,30 @@
-package tic_tac_toe.service.game;
+package tic_tac_toe.service.game.impl;
 
 
+import java.util.LinkedList;
+import java.util.List;
+
+import lombok.Getter;
+import lombok.extern.java.Log;
 import tic_tac_toe.constants.Constants;
 import tic_tac_toe.service.dto.DiagonalSum;
 import tic_tac_toe.service.dto.Position;
 
+@Log
 class Game {
 
 	public static final int INIT_VAL = Constants.INITIAL_MARK;
+	private static final int NUMBER_OF_CELLS = 9;
 	
 	private int numberOfCellUpdated  ;
 	private boolean startedByHuman ;
 	
 	
 	Game() {
-		setNumberOfCellUpdated(0); 
+		numberOfCellUpdated = 0; 
 	}
 	
-	
+	@Getter
 	int[][] state = new int[][] {
 			{ INIT_VAL, INIT_VAL, INIT_VAL },
 			{ INIT_VAL, INIT_VAL, INIT_VAL },
@@ -25,15 +32,18 @@ class Game {
 	};
 
 	boolean updateState(int i, int j, int val) {
-		int temp = state[i][j];
 
-		if (temp == INIT_VAL) {
+		
+		numberOfCellUpdated = NUMBER_OF_CELLS - getAvailablePositionList().size() ;
+		
+		
+		if (state[i][j] == INIT_VAL) {
 			state[i][j] = val;
-			setNumberOfCellUpdated(getNumberOfCellUpdated() + 1);
+			numberOfCellUpdated += 1;
 			return true;
 		}
 
-		System.out.println("Invalid position,try again!");
+		log.info("Invalid position:"+"i:"+i+"j:"+j+",try again!");
 		return false;
 
 	}
@@ -72,6 +82,27 @@ class Game {
 		return digSum;
 	}
 
+	
+	public List<Position> getAvailablePositionList() {
+
+		Position position;
+
+		List<Position> positionList = new LinkedList<>();
+
+		for (int cell = 1; cell <= NUMBER_OF_CELLS; cell++) {
+			position = new Position(cell);
+
+			if (state[position.getX()][position.getY()] == INIT_VAL) {
+				positionList.add(position);
+			}
+		}
+		
+		numberOfCellUpdated = NUMBER_OF_CELLS - positionList.size() ;
+		
+		return positionList;
+	}
+	
+	
 	@Override
 	public String toString() {
 		StringBuilder stateAsString = new StringBuilder("\n");
@@ -108,6 +139,10 @@ class Game {
 
 
 	public int getNumberOfCellUpdated() {
+		
+		int numberOfAvailablePosition = getAvailablePositionList().size() ;
+		numberOfCellUpdated = NUMBER_OF_CELLS - numberOfAvailablePosition ;
+		
 		return numberOfCellUpdated;
 	}
 
@@ -122,4 +157,9 @@ class Game {
 	public void setStartedByHuman(boolean startedByHuman) {
 		this.startedByHuman = startedByHuman;
 	}
+
+	public boolean isDraw() {
+		return getNumberOfCellUpdated() >= 9 ;
+	}
+	
 }

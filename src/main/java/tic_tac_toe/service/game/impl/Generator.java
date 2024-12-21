@@ -1,21 +1,27 @@
-package tic_tac_toe.service.game;
+package tic_tac_toe.service.game.impl;
 
 import java.util.Iterator;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.PriorityQueue;
 
+import org.springframework.stereotype.Service;
+
+import lombok.extern.java.Log;
 import tic_tac_toe.constants.Constants;
 import tic_tac_toe.constants.Constants.PLAYER;
 import tic_tac_toe.constants.Constants.PRIORITY;
 import tic_tac_toe.service.dto.Position;
 
+@Service
+@Log
 public class Generator {
 
-private static final int NUMBER_OF_CELLS = 9;
+
 
 	
 	private PriorityQueue<Position> positionQueue ;
+	
+	
 
 	public Generator() {
 		positionQueue = new PriorityQueue<>() ;
@@ -24,30 +30,16 @@ private static final int NUMBER_OF_CELLS = 9;
 	public Position searchAndGetPosition(Game game) {
 
 		   if(Test.handleStartWithSideCenter(game)) {
-		    	System.out.println("returned by handleStartWithSideCenter");
+		    	log.info("returned by handleStartWithSideCenter");
 		    	return new Position(5) ;
 		    }
 
-		assignPrioritiesToPositions(generatePositionList(game), game.state) ; 
+		assignPrioritiesToPositions(game.getAvailablePositionList(), game.state) ; 
 	
 		return getBestPosition(game) ;
 	}
 
-	private List<Position> generatePositionList(Game game) {
 
-		Position position;
-
-		List<Position> positionList = new LinkedList<>();
-
-		for (int cell = 1; cell <= NUMBER_OF_CELLS; cell++) {
-			position = new Position(cell);
-
-			if (game.state[position.getX()][position.getY()] == Game.INIT_VAL) {
-				positionList.add(position);
-			}
-		}
-		return positionList;
-	}
 
 	public void assignPrioritiesToPositions(List<Position> positionList, final int[][] currentState) {
 
@@ -113,13 +105,11 @@ private static final int NUMBER_OF_CELLS = 9;
 	
 	}
 
-	
-	
-	
+		
 	private Position getBestPosition(Game game) {
 //		
 		if(Test.diagonalDangerForAi(game)) {
-			System.out.println("diagonalDangerForAi, returning handleDoublePreventiveCase()");
+			System.out.println("diagonalDangerForAi, returning handleDiagonalDangerForAi()");
 			return handleDiagonalDangerForAi();
 		}
 		
@@ -137,7 +127,7 @@ private static final int NUMBER_OF_CELLS = 9;
 	}
 
 	private Position handleDiagonalDangerForAi() {
-		System.out.println("Generator.handleDoublePreventiveCase()");
+		System.out.println("Generator.handleDiagonalDangerForAi()");
 		return new Position(4) ;
 	}
 		
