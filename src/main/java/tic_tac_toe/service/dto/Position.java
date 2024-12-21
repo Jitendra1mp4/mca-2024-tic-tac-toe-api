@@ -1,7 +1,9 @@
 package tic_tac_toe.service.dto;
 
+import lombok.extern.java.Log;
 import tic_tac_toe.constants.Constants.PRIORITY;
 
+@Log
 public class Position implements Comparable<Position> {
     private int x;
     private int y;
@@ -59,8 +61,9 @@ public class Position implements Comparable<Position> {
                 break;
 
             default:
-                System.out.println("invalid position:"+position);
-                break;
+                log.warning("invalid position:"+position);
+                throw new RuntimeException("Invalid position received") ; 
+                
         }
     }
 
@@ -92,5 +95,63 @@ public class Position implements Comparable<Position> {
 		return Integer.compare(this.priority.getPriorityID(), other.priority.getPriorityID());
 	}
 
+	public int getIntValue() {
+		
+		
+		switch (x){
+		case 0: 
+			switch (y) {
+			case 0 : return 1 ;
+			case 1 : return 2 ;
+			case 2 : return 3 ;
+			default : return -1 ;
+			}
+			
+		case 1: 
+			switch (y) {
+			case 0 : return 4 ;
+			case 1 : return 5 ;
+			case 2 : return 6 ;
+			default : return -1 ;
+			}
+		
+		case 2: 
+			switch (y) {
+			case 0 : return 7 ;
+			case 1 : return 8 ;
+			case 2 : return 9 ;
+			default : return -1 ;
+			}
+			
+		default : return -1 ;
+			
+		}
+	
+	}
     
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

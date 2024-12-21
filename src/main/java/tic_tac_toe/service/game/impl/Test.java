@@ -1,4 +1,4 @@
-package tic_tac_toe.service.game;
+package tic_tac_toe.service.game.impl;
 
 import tic_tac_toe.constants.Constants;
 import tic_tac_toe.constants.Constants.PLAYER;
