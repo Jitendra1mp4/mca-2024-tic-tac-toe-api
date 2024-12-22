@@ -1,6 +1,5 @@
 package tic_tac_toe.controller;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -13,7 +12,7 @@ import tic_tac_toe.pojo.CurrentGame;
 import tic_tac_toe.pojo.GamePlayRequest;
 import tic_tac_toe.pojo.NewGameRequest;
 import tic_tac_toe.service.game.Play ;
-import tic_tac_toe.validate.ValidationService;
+import tic_tac_toe.service.validate.ValidationService;
 
 
 @RestController	
@@ -21,11 +20,14 @@ import tic_tac_toe.validate.ValidationService;
 @Log
 public class GameController {
 	
-	@Autowired
 	private Play play ;
 	
-	@Autowired
 	ValidationService validate ;
+	
+	public GameController(Play play, ValidationService validate) {
+		this.play = play ;
+		this.validate = validate ;
+	}
 
 @PostMapping(value ={"/new","/new/"})
 public ResponseEntity<CurrentGame> startNewGame(@RequestBody NewGameRequest gameRequest) {
