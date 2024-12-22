@@ -1,4 +1,4 @@
-package tic_tac_toe.validate;
+package tic_tac_toe.service.validate;
 
 import lombok.Getter;
 import lombok.ToString;

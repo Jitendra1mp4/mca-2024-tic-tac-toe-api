@@ -1,4 +1,4 @@
-package tic_tac_toe.validate.impl;
+package tic_tac_toe.service.validate.impl;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
@@ -9,8 +9,8 @@ import tic_tac_toe.constants.ErrorEnum;
 import tic_tac_toe.exception.TicTacToePlayerException;
 import tic_tac_toe.pojo.GamePlayRequest;
 import tic_tac_toe.pojo.NewGameRequest;
-import tic_tac_toe.validate.Count;
-import tic_tac_toe.validate.ValidationService;
+import tic_tac_toe.service.validate.Count;
+import tic_tac_toe.service.validate.ValidationService;
 
 @Service
 @Log
@@ -45,11 +45,13 @@ public class ValidationServiceImpl implements ValidationService {
 		int position = gamePlayRequest.getPosition();
 		
 		if (!(position >= 1 && position <= 9)) {
-			throw new TicTacToePlayerException(
+			TicTacToePlayerException ticTacToePlayerException = new TicTacToePlayerException(
 					ErrorEnum.INVALID_POSITION_RECEIVED.getErrorCode(),
 					ErrorEnum.INVALID_POSITION_RECEIVED.getErrorMessage(),
 					ErrorEnum.INVALID_POSITION_RECEIVED.getErrorDescription(),
 					HttpStatus.BAD_REQUEST);
+			log.warning("occurred ex ticTacToePlayerException:"+ticTacToePlayerException);
+			throw ticTacToePlayerException;
 		}
 		
 		
@@ -61,25 +63,29 @@ public class ValidationServiceImpl implements ValidationService {
 		Count ct = getCount(gamePlayRequest.getGameState()) ;
 		if(!gamePlayRequest.isStartedByHuman() 
 				&& ( ct.getAiMarkCount() - 1 != ct.getHumanMarkCount() )){
-			throw new TicTacToePlayerException(
-					ErrorEnum.INVALID_STATE_RECEIVED.getErrorCode(), 
-					ErrorEnum.INVALID_STATE_RECEIVED.getErrorMessage(), 
-					ErrorEnum.INVALID_STATE_RECEIVED.getErrorDescription(), 
-					HttpStatus.BAD_REQUEST) ;
+			TicTacToePlayerException ticTacToePlayerException = new TicTacToePlayerException(
+							ErrorEnum.INVALID_STATE_RECEIVED.getErrorCode(), 
+							ErrorEnum.INVALID_STATE_RECEIVED.getErrorMessage(), 
+							ErrorEnum.INVALID_STATE_RECEIVED.getErrorDescription(), 
+							HttpStatus.BAD_REQUEST);
+			log.warning("occurred ex ticTacToePlayerException:"+ticTacToePlayerException);
+
+			throw ticTacToePlayerException ;
 		}
 		
 		if(gamePlayRequest.isStartedByHuman() && ( ct.getAiMarkCount() != ct.getHumanMarkCount() )){
-			throw new TicTacToePlayerException(
+			TicTacToePlayerException ticTacToePlayerException = new TicTacToePlayerException(
 					ErrorEnum.INVALID_STATE_RECEIVED.getErrorCode(), 
 					ErrorEnum.INVALID_STATE_RECEIVED.getErrorMessage(), 
 					ErrorEnum.INVALID_STATE_RECEIVED.getErrorDescription(), 
-					HttpStatus.BAD_REQUEST) ;
+					HttpStatus.BAD_REQUEST);
+			log.warning("occurred ex ticTacToePlayerException:"+ticTacToePlayerException);
+			throw ticTacToePlayerException ;
 		}
 
 	}
 	
-	
-	
+
 	
 	private Count getCount(final int[][] state) {
 		
